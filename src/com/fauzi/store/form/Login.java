@@ -1,6 +1,9 @@
 package com.fauzi.store.form;
 
-import javax.swing.JRootPane;
+import com.fauzi.store.Main;
+import com.fauzi.store.model.Pegawai;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -8,10 +11,17 @@ import javax.swing.JRootPane;
  */
 public class Login extends javax.swing.JFrame {
 
+    private final Main main;
+    private final Pegawai pegawai;
+    
     /**
      * Creates new form Login
+     * @param objMain
      */
-    public Login() {
+    public Login(Main objMain, Pegawai objPegawai) {
+        this.main = objMain;
+        this.pegawai = objPegawai;
+        
         initComponents();
         
         rootPane.setDefaultButton(btLogin);
@@ -42,7 +52,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Nama");
+        jLabel1.setText("ID Pegawai");
 
         jLabel2.setText("Kata Sandi");
 
@@ -95,9 +105,33 @@ public class Login extends javax.swing.JFrame {
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        String idPegawai = tfUsername.getText().trim();
+        String password = String.valueOf(tfPassword.getPassword());
+        
+        // jika kosong, beri peringatan
+        if (idPegawai.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Masukkan ID Pegawai dan Password di kolom yang disediakan", "Login Empty", JOptionPane.INFORMATION_MESSAGE);
+            clearInput();
+            return;
+        }
+        
+        // apakah user dan password yang diberikan sesuai dengan di database?
+        if (pegawai.login(idPegawai, password)) {
+            JOptionPane.showMessageDialog(rootPane, "Selamat datang di Fauzy Store", "Login Success", JOptionPane.INFORMATION_MESSAGE);
+            main.hideLogin();
+            main.showStock();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "ID Pegawai dan password tidak sesuai", "Login Error", JOptionPane.ERROR_MESSAGE);
+            clearInput();
+        }
     }//GEN-LAST:event_btLoginActionPerformed
 
+    private void clearInput() {
+        tfUsername.setText("");
+        tfPassword.setText("");
+        tfUsername.requestFocus();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogin;
     private javax.swing.JLabel jLabel1;
