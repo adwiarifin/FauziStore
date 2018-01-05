@@ -1,6 +1,13 @@
 package com.fauzi.store;
 
 import com.fauzi.store.form.Login;
+import com.fauzi.store.form.Penjualan;
+import com.fauzi.store.form.Stock;
+import com.fauzi.store.model.Pegawai;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -8,11 +15,73 @@ import com.fauzi.store.form.Login;
  */
 public class Main {
 
+    private final Login mLogin;
+    private final Stock mStock;
+    private final Penjualan mPenjualan;
+    private final Connection conn;
+    private final Pegawai mPegawai;
+
+    public Main() {
+        conn = getConnection();
+        
+        mPegawai = new Pegawai(conn);
+        
+        mLogin = new Login(this, mPegawai);
+        mStock = new Stock();
+        mPenjualan = new Penjualan();
+    }
+
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            Main main = new Main();
+            main.showLogin();
         });
+    }
+    
+    private Connection getConnection() {
+        String server = "localhost";
+        String database = "tokoanu";
+        String username = "root";
+        String password = "";
+        String host = "jdbc:mysql://" + server + "/" + database;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection koneksi = DriverManager.getConnection(host, username, password);
+            return koneksi;
+        } catch (ClassNotFoundException | SQLException ex) {
+            // show error
+            JOptionPane.showMessageDialog(null, "Tidak dapat menyambung ke database", "Koneksi gagal", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return null;
+    }
+
+    public void showLogin() {
+        mLogin.setVisible(true);
+    }
+
+    public void hideLogin() {
+        mLogin.setVisible(false);
+    }
+
+    public void showStock() {
+        mStock.setVisible(true);
+    }
+    
+    public void hideStock() {
+        mStock.setVisible(false);
+    }
+
+    public void showPenjualan() {
+        mPenjualan.setVisible(true);
+    }
+    
+    public void hidePenjualan() {
+        mPenjualan.setVisible(false);
+    }
+    
+    public void exit() {
+        System.exit(0);
     }
 }
