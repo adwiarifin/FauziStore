@@ -31,7 +31,7 @@ public class Pegawai {
             byte[] digest = md.digest();
             String hash = DatatypeConverter.printHexBinary(digest).toLowerCase();
             
-            String sql = "SELECT * FROM pegawai WHERE idpegawai = ? AND password = ?";
+            String sql = "SELECT idpegawai FROM pegawai WHERE idpegawai = ? AND password = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, idPegawai);
             stmt.setString(2, hash);
