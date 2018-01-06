@@ -2,7 +2,6 @@ package com.fauzi.store.form;
 
 import com.fauzi.store.Main;
 import com.fauzi.store.model.Pegawai;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**
