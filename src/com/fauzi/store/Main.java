@@ -2,6 +2,7 @@ package com.fauzi.store;
 
 import com.fauzi.store.form.Login;
 import com.fauzi.store.form.Penjualan;
+import com.fauzi.store.form.Restock;
 import com.fauzi.store.form.Stock;
 import com.fauzi.store.model.Barang;
 import com.fauzi.store.model.Pegawai;
@@ -18,6 +19,7 @@ public class Main {
 
     private final Login mLogin;
     private final Stock mStock;
+    private final Restock mRestock;
     private final Penjualan mPenjualan;
     
     private final Connection conn;
@@ -32,13 +34,15 @@ public class Main {
         
         mLogin = new Login(this, mPegawai);
         mStock = new Stock(this, mBarang);
+        mRestock = new Restock(this, mBarang);
         mPenjualan = new Penjualan();
     }
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
             Main main = new Main();
-            main.showLogin();
+//            main.showLogin();
+            main.showRestock();
         });
     }
     
@@ -75,6 +79,14 @@ public class Main {
     
     public void hideStock() {
         mStock.setVisible(false);
+    }
+    
+    public void showRestock() {
+        mRestock.setVisible(true);
+    }
+    
+    public void hideRestock() {
+        mRestock.setVisible(false);
     }
 
     public void showPenjualan() {

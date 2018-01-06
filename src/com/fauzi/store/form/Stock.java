@@ -80,9 +80,9 @@ public class Stock extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbStock = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        menuPenjualan = new javax.swing.JMenu();
+        menuRestock = new javax.swing.JMenu();
+        menuKeluar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,14 +147,19 @@ public class Stock extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Penjualan");
-        jMenuBar1.add(jMenu1);
+        menuPenjualan.setText("Penjualan");
+        jMenuBar1.add(menuPenjualan);
 
-        jMenu2.setText("Restock");
-        jMenuBar1.add(jMenu2);
+        menuRestock.setText("Restock");
+        menuRestock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRestockActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(menuRestock);
 
-        jMenu3.setText("Keluar");
-        jMenuBar1.add(jMenu3);
+        menuKeluar.setText("Keluar");
+        jMenuBar1.add(menuKeluar);
 
         setJMenuBar(jMenuBar1);
 
@@ -177,16 +182,22 @@ public class Stock extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void menuRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestockActionPerformed
+        // TODO add your handling code here:
+        main.hideStock();
+        main.showRestock();
+    }//GEN-LAST:event_menuRestockActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu menuKeluar;
+    private javax.swing.JMenu menuPenjualan;
+    private javax.swing.JMenu menuRestock;
     private javax.swing.JTable tbStock;
     private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables

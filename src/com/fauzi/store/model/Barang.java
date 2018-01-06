@@ -82,4 +82,28 @@ public class Barang {
         }
         return result;
     }
+    
+    public String[] getListKategori(){
+        String[] result = null;
+        try{
+            String sql = "SELECT DISTINCT kategori FROM kategori ORDER by kategori";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.last();
+                int row = rs.getRow();
+                result = new String[row];
+                
+                rs.beforeFirst();
+                int i = 0;
+                while(rs.next()){
+                    result[i] = rs.getString("kategori");
+                    i++;
+                }
+            }
+        } catch(SQLException ex){
+            Logger.getLogger(Barang.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 }
