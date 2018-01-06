@@ -68,6 +68,22 @@ CREATE TABLE `detailtransaksi` (
 
 /*Data for the table `detailtransaksi` */
 
+/*Table structure for table `discount` */
+
+DROP TABLE IF EXISTS `discount`;
+
+CREATE TABLE `discount` (
+  `iddiskon` mediumint(9) NOT NULL AUTO_INCREMENT,
+  `namapromo` varchar(50) DEFAULT NULL,
+  `tglmulai` date DEFAULT NULL,
+  `tglselesai` date DEFAULT NULL,
+  `jnsdiskon` varchar(80) DEFAULT NULL,
+  `discount` int(11) DEFAULT NULL,
+  PRIMARY KEY (`iddiskon`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `discount` */
+
 /*Table structure for table `kategori` */
 
 DROP TABLE IF EXISTS `kategori`;
