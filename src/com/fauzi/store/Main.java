@@ -3,6 +3,7 @@ package com.fauzi.store;
 import com.fauzi.store.form.Login;
 import com.fauzi.store.form.Penjualan;
 import com.fauzi.store.form.Stock;
+import com.fauzi.store.model.Barang;
 import com.fauzi.store.model.Pegawai;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,16 +19,19 @@ public class Main {
     private final Login mLogin;
     private final Stock mStock;
     private final Penjualan mPenjualan;
+    
     private final Connection conn;
     private final Pegawai mPegawai;
+    private final Barang mBarang;
 
     public Main() {
         conn = getConnection();
         
         mPegawai = new Pegawai(conn);
+        mBarang = new Barang(conn);
         
         mLogin = new Login(this, mPegawai);
-        mStock = new Stock();
+        mStock = new Stock(this, mBarang);
         mPenjualan = new Penjualan();
     }
 

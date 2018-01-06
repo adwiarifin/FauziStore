@@ -1,16 +1,66 @@
 package com.fauzi.store.form;
 
+import com.fauzi.store.Main;
+import com.fauzi.store.model.Barang;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author fauzi
  */
 public class Stock extends javax.swing.JFrame {
 
+    private final Main main;
+    private final Barang barang;
+
     /**
      * Creates new form Stock
+     *
+     * @param objMain
+     * @param objBarang
      */
-    public Stock() {
+    public Stock(Main objMain, Barang objBarang) {
+        this.main = objMain;
+        this.barang = objBarang;
+
         initComponents();
+        initDocumentListener();
+
+        loadBarang("");
+    }
+
+    private void loadBarang(String keyword) {
+        DefaultTableModel modelStock = new DefaultTableModel(null, Barang.BARANG_COLUMN_TITLE);
+        modelStock.setRowCount(0);
+
+        String[][] listBarang = keyword.isEmpty() ? barang.getListBarang() : barang.getListBarang(keyword);
+        for (String[] data : listBarang) {
+            modelStock.addRow(data);
+        }
+
+        tbStock.setModel(modelStock);
+    }
+
+    private void initDocumentListener() {
+        tfSearch.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+        });
     }
 
     /**
@@ -26,9 +76,9 @@ public class Stock extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbStock = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -58,22 +108,17 @@ public class Stock extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        jLabel2.setText("cari");
+        jLabel2.setText("Cari Barang");
 
-        jTextField1.setText("jTextField1");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbStock);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -82,11 +127,11 @@ public class Stock extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -96,7 +141,7 @@ public class Stock extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -142,7 +187,7 @@ public class Stock extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tbStock;
+    private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables
 }
