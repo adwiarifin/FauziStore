@@ -59,7 +59,15 @@ public class Penjualan extends javax.swing.JFrame {
         jToggleButton2 = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -259,7 +267,7 @@ public class Penjualan extends javax.swing.JFrame {
 
         jButton2.setText("Hapus Transaksi");
 
-        jToggleButton2.setIcon(new javax.swing.ImageIcon("D:\\penting\\FauziStore\\ok.png")); // NOI18N
+        jToggleButton2.setText("Selesai");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -329,10 +337,32 @@ public class Penjualan extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("File");
+        jMenu1.setText("Form");
+
+        jMenuItem4.setText("Discount");
+        jMenu1.add(jMenuItem4);
+        jMenu1.add(jSeparator1);
+
+        jMenuItem1.setText("Stock");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem3.setText("Restock");
+        jMenu1.add(jMenuItem3);
+        jMenu1.add(jSeparator2);
+
+        jMenuItem2.setText("Pegawai");
+        jMenu1.add(jMenuItem2);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Keluar");
+        jMenu2.setText("Akun");
+
+        jMenuItem5.setText("Log-Out");
+        jMenu2.add(jMenuItem5);
+
+        jMenuItem6.setText("Keluar");
+        jMenu2.add(jMenuItem6);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -390,6 +420,12 @@ public class Penjualan extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -397,6 +433,8 @@ public class Penjualan extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
