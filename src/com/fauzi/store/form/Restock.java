@@ -3,6 +3,11 @@ package com.fauzi.store.form;
 import com.fauzi.store.Main;
 import com.fauzi.store.model.Barang;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,6 +29,10 @@ public class Restock extends javax.swing.JFrame {
         this.barang = objBarang;
 
         initComponents();
+        initDocumentListener();
+        initSelectionListener();
+
+        rdRestock.setSelected(true);
     }
 
     /**
@@ -59,7 +68,7 @@ public class Restock extends javax.swing.JFrame {
         tfSatuan = new javax.swing.JTextField();
         tfUkuran = new javax.swing.JTextField();
         jScrollketerangan = new javax.swing.JScrollPane();
-        textDeskripsi = new javax.swing.JTextArea();
+        textKeterangan = new javax.swing.JTextArea();
         tfHarga = new javax.swing.JTextField();
         btAddKategori = new javax.swing.JButton();
         btSimpan = new javax.swing.JButton();
@@ -104,7 +113,6 @@ public class Restock extends javax.swing.JFrame {
         });
 
         bgJenisRestock.add(rdRestock);
-        rdRestock.setSelected(true);
         rdRestock.setText("Restock");
         rdRestock.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -120,14 +128,24 @@ public class Restock extends javax.swing.JFrame {
 
         jLabel6.setText("Jenis");
 
+        tfId.setFocusCycleRoot(true);
+        tfId.setName(""); // NOI18N
+        tfId.setNextFocusableComponent(tfNama);
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), tfId, org.jdesktop.beansbinding.BeanProperty.create("editable"));
         bindingGroup.addBinding(binding);
+
+        tfNama.setNextFocusableComponent(cbKategori);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), tfNama, org.jdesktop.beansbinding.BeanProperty.create("editable"));
         bindingGroup.addBinding(binding);
 
+        tfJenis.setNextFocusableComponent(tfHarga);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), tfJenis, org.jdesktop.beansbinding.BeanProperty.create("editable"));
         bindingGroup.addBinding(binding);
+
+        cbKategori.setNextFocusableComponent(tfJenis);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), cbKategori, org.jdesktop.beansbinding.BeanProperty.create("editable"));
         bindingGroup.addBinding(binding);
@@ -143,14 +161,23 @@ public class Restock extends javax.swing.JFrame {
         jLabel11.setText("Keterangan");
 
         tfBahan.setEditable(true);
+        tfBahan.setNextFocusableComponent(tfSatuan);
 
-        textDeskripsi.setColumns(20);
-        textDeskripsi.setRows(5);
-        jScrollketerangan.setViewportView(textDeskripsi);
+        tfSatuan.setNextFocusableComponent(tfUkuran);
+
+        tfUkuran.setNextFocusableComponent(textKeterangan);
+
+        textKeterangan.setColumns(20);
+        textKeterangan.setRows(5);
+        textKeterangan.setNextFocusableComponent(btSimpan);
+        jScrollketerangan.setViewportView(textKeterangan);
 
         tfHarga.setEditable(true);
+        tfHarga.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        tfHarga.setNextFocusableComponent(spStock);
 
         btAddKategori.setText("+");
+        btAddKategori.setNextFocusableComponent(tfJenis);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), btAddKategori, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -162,6 +189,7 @@ public class Restock extends javax.swing.JFrame {
         });
 
         btSimpan.setText("Simpan");
+        btSimpan.setNextFocusableComponent(tfId);
         btSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSimpanActionPerformed(evt);
@@ -171,6 +199,7 @@ public class Restock extends javax.swing.JFrame {
         jLabel12.setText("Stock");
 
         spStock.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spStock.setNextFocusableComponent(tfBahan);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -192,34 +221,33 @@ public class Restock extends javax.swing.JFrame {
                             .addComponent(rdRestock)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(34, 34, 34)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(tfJenis, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfNama, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfId, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cbKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, 128, Short.MAX_VALUE)
+                                        .addComponent(tfHarga)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btAddKategori)
+                                .addGap(72, 72, 72)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel8)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(tfJenis, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tfNama, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tfId, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cbKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, 128, Short.MAX_VALUE)
-                                            .addComponent(tfHarga))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btAddKategori)
-                                        .addGap(72, 72, 72)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel8)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel11)
-                                                    .addComponent(jLabel10))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(btSimpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(jScrollketerangan, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                                                    .addComponent(tfBahan)
-                                                    .addComponent(tfSatuan)
-                                                    .addComponent(tfUkuran)))))))))
+                                            .addComponent(jLabel11)
+                                            .addComponent(jLabel10))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(btSimpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jScrollketerangan, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                                            .addComponent(tfBahan)
+                                            .addComponent(tfSatuan)
+                                            .addComponent(tfUkuran)))))))
                     .addComponent(jLabel7))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,10 +372,59 @@ public class Restock extends javax.swing.JFrame {
 
     private void btSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSimpanActionPerformed
         // TODO add your handling code here:
+        String idBarang = tfId.getText().trim().toLowerCase();
+        String namaBarang = tfNama.getText().trim();
+        String kategori = cbKategori.getItemAt(cbKategori.getSelectedIndex());
+        String jenis = tfJenis.getText().trim().toLowerCase();
+        int harga = tfHarga.getText().trim().isEmpty() ? 0 : Integer.parseInt(tfHarga.getText().trim());
+        int stock = Integer.parseInt(spStock.getValue().toString());
+        String bahan = tfBahan.getText().trim();
+        String satuan = tfSatuan.getText().trim();
+        String ukuran = tfUkuran.getText().trim();
+        String keterangan = textKeterangan.getText().trim();
+
+        if (idBarang.isEmpty()
+                || namaBarang.isEmpty()
+                || kategori.isEmpty()
+                || kategori.isEmpty()
+                || jenis.isEmpty()
+                || harga == 0
+                || bahan.isEmpty()
+                || satuan.isEmpty()
+                || ukuran.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Pastikan semua masukan sudah terisi!", "Invalid Input", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         if (rdBaru.isSelected()) {
-
+            // insert barang
+            if (barang.insertBarang(idBarang, namaBarang, kategori, jenis, harga, stock, bahan, satuan, ukuran, keterangan)) {
+                // informasikan jika insert berhasil
+                JOptionPane.showMessageDialog(rootPane, "Data barang baru berhasil dimasukkan", "Info", JOptionPane.INFORMATION_MESSAGE);
+                // reload barang
+                loadBarang("");
+                // siapkan untuk input baru
+                loadKategori();
+                clearInput();
+                tfId.requestFocus();
+            } else {
+                // informasikan jika insert gagal
+                JOptionPane.showMessageDialog(rootPane, "Data barang gagal dimasukkan", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else if (rdRestock.isSelected()) {
-
+            // update barang
+            if (barang.updateBarang(idBarang, harga, stock, bahan, satuan, ukuran, keterangan)) {
+                // informasikan jika insert berhasil
+                JOptionPane.showMessageDialog(rootPane, "Data restock berhasil diperbarui", "Info", JOptionPane.INFORMATION_MESSAGE);
+                // reload barang
+                loadBarang("");
+                clearInput();
+                cbKategori.removeAllItems();
+                tbRestock.clearSelection();
+                tfSearch.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Data gagal diperbarui", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Radio button not working.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -356,7 +433,7 @@ public class Restock extends javax.swing.JFrame {
     private void rdBaruItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdBaruItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-            reloadKategori();
+            loadKategori();
             clearInput();
             tfId.requestFocus();
         }
@@ -368,16 +445,29 @@ public class Restock extends javax.swing.JFrame {
             tbRestock.clearSelection();
             cbKategori.removeAllItems();
             clearInput();
+            loadBarang("");
             tfSearch.requestFocus();
         }
     }//GEN-LAST:event_rdRestockItemStateChanged
 
-    private void reloadKategori() {
+    private void loadKategori() {
         cbKategori.removeAllItems();
         String[] items = barang.getListKategori();
         for (String item : items) {
             cbKategori.addItem(item);
         }
+    }
+
+    private void loadBarang(String keyword) {
+        DefaultTableModel modelStock = new DefaultTableModel(null, Barang.BARANG_COLUMN_TITLE);
+        modelStock.setRowCount(0);
+
+        String[][] listBarang = keyword.isEmpty() ? barang.getListBarang() : barang.getListBarang(keyword);
+        for (String[] data : listBarang) {
+            modelStock.addRow(data);
+        }
+
+        tbRestock.setModel(modelStock);
     }
 
     private void clearInput() {
@@ -388,8 +478,57 @@ public class Restock extends javax.swing.JFrame {
         tfBahan.setText("");
         tfSatuan.setText("");
         tfUkuran.setText("");
-        textDeskripsi.setText("");
+        textKeterangan.setText("");
         spStock.setValue(0);
+
+        tfSearch.setText("");
+    }
+
+    private void initDocumentListener() {
+        tfSearch.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+        });
+    }
+
+    private void initSelectionListener() {
+        tbRestock.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int rowNumber = tbRestock.getSelectedRow();
+                    if (rowNumber >= 0) {
+                        String id = tbRestock.getValueAt(rowNumber, 0).toString();
+                        String[] detil = barang.getListDetailBarang(id);
+                        tfId.setText(detil[0]);
+                        tfNama.setText(detil[1]);
+                        cbKategori.removeAllItems();
+                        cbKategori.addItem(detil[2]);
+                        tfJenis.setText(detil[3]);
+                        tfHarga.setText(detil[4]);
+                        spStock.setValue(Integer.parseInt(detil[5]));
+                        tfBahan.setText(detil[6]);
+                        tfSatuan.setText(detil[7]);
+                        tfUkuran.setText(detil[8]);
+                        textKeterangan.setText(detil[9]);
+                    }
+                }
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -418,7 +557,7 @@ public class Restock extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdRestock;
     private javax.swing.JSpinner spStock;
     private javax.swing.JTable tbRestock;
-    private javax.swing.JTextArea textDeskripsi;
+    private javax.swing.JTextArea textKeterangan;
     private javax.swing.JTextField tfBahan;
     private javax.swing.JTextField tfHarga;
     private javax.swing.JTextField tfId;
