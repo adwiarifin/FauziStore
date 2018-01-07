@@ -19,11 +19,10 @@ public class Stock extends javax.swing.JFrame {
      * Creates new form Stock
      *
      * @param objMain
-     * @param objBarang
      */
-    public Stock(Main objMain, Barang objBarang) {
+    public Stock(Main objMain) {
         this.main = objMain;
-        this.barang = objBarang;
+        this.barang = objMain.getModelBarang();
 
         initComponents();
         initDocumentListener();

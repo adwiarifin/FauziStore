@@ -16,11 +16,10 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      * @param objMain
-     * @param objPegawai
      */
-    public Login(Main objMain, Pegawai objPegawai) {
+    public Login(Main objMain) {
         this.main = objMain;
-        this.pegawai = objPegawai;
+        this.pegawai = objMain.getModelPegawai();
         
         initComponents();
         

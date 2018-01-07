@@ -22,11 +22,10 @@ public class Restock extends javax.swing.JFrame {
      * Creates new form Restock
      *
      * @param objMain
-     * @param objBarang
      */
-    public Restock(Main objMain, Barang objBarang) {
+    public Restock(Main objMain) {
         this.main = objMain;
-        this.barang = objBarang;
+        this.barang = objMain.getModelBarang();
 
         initComponents();
         initDocumentListener();

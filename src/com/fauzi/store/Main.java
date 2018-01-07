@@ -34,9 +34,9 @@ public class Main {
         mPegawai = new Pegawai(conn);
         mBarang = new Barang(conn);
 
-        mLogin = new Login(this, mPegawai);
-        mStock = new Stock(this, mBarang);
-        mRestock = new Restock(this, mBarang);
+        mLogin = new Login(this);
+        mStock = new Stock(this);
+        mRestock = new Restock(this);
         mPenjualan = new Penjualan();
 
         activeUser = "";
@@ -99,6 +99,14 @@ public class Main {
 
     public void hidePenjualan() {
         mPenjualan.setVisible(false);
+    }
+    
+    public Barang getModelBarang(){
+        return mBarang;
+    }
+    
+    public Pegawai getModelPegawai(){
+        return mPegawai;
     }
 
     public void setActiveUser(String userId) {
