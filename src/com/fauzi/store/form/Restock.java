@@ -57,7 +57,7 @@ public class Restock extends javax.swing.JFrame {
         tfId = new javax.swing.JTextField();
         tfNama = new javax.swing.JTextField();
         tfJenis = new javax.swing.JTextField();
-        cbKategori = new javax.swing.JComboBox<String>();
+        cbKategori = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -78,6 +78,17 @@ public class Restock extends javax.swing.JFrame {
         tbRestock = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         tfSearch = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,7 +104,7 @@ public class Restock extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(739, Short.MAX_VALUE))
+                .addContainerGap(759, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +170,6 @@ public class Restock extends javax.swing.JFrame {
 
         jLabel11.setText("Keterangan");
 
-        tfBahan.setEditable(true);
         tfBahan.setNextFocusableComponent(tfSatuan);
 
         tfSatuan.setNextFocusableComponent(tfUkuran);
@@ -171,7 +181,6 @@ public class Restock extends javax.swing.JFrame {
         textKeterangan.setNextFocusableComponent(btSimpan);
         jScrollketerangan.setViewportView(textKeterangan);
 
-        tfHarga.setEditable(true);
         tfHarga.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         tfHarga.setNextFocusableComponent(spStock);
 
@@ -197,7 +206,7 @@ public class Restock extends javax.swing.JFrame {
 
         jLabel12.setText("Stock");
 
-        spStock.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spStock.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         spStock.setNextFocusableComponent(tfBahan);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -246,7 +255,7 @@ public class Restock extends javax.swing.JFrame {
                                             .addComponent(tfSatuan)
                                             .addComponent(tfUkuran)))))))
                     .addComponent(jLabel7))
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,8 +344,38 @@ public class Restock extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
         );
+
+        jMenu1.setText("Form");
+
+        jMenuItem4.setText("Penjualan");
+        jMenu1.add(jMenuItem4);
+
+        jMenuItem3.setText("Discount");
+        jMenu1.add(jMenuItem3);
+        jMenu1.add(jSeparator1);
+
+        jMenuItem1.setText("Stock");
+        jMenu1.add(jMenuItem1);
+        jMenu1.add(jSeparator2);
+
+        jMenuItem2.setText("Pegawai");
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Akun");
+
+        jMenuItem5.setText("Log-Out");
+        jMenu2.add(jMenuItem5);
+
+        jMenuItem6.setText("Keluar");
+        jMenu2.add(jMenuItem6);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -547,11 +586,22 @@ public class Restock extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollketerangan;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JRadioButton rdBaru;
     private javax.swing.JRadioButton rdRestock;
     private javax.swing.JSpinner spStock;
