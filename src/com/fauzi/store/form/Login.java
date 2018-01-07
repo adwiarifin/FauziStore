@@ -118,6 +118,7 @@ public class Login extends javax.swing.JFrame {
         // apakah user dan password yang diberikan sesuai dengan di database?
         if (pegawai.login(idPegawai, password)) {
             JOptionPane.showMessageDialog(rootPane, "Selamat datang di Fauzy Store", "Login Success", JOptionPane.INFORMATION_MESSAGE);
+            main.setActiveUser(idPegawai);
             main.hideLogin();
             main.showStock();
         } else {

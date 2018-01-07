@@ -21,21 +21,25 @@ public class Main {
     private final Stock mStock;
     private final Restock mRestock;
     private final Penjualan mPenjualan;
-    
+
     private final Connection conn;
     private final Pegawai mPegawai;
     private final Barang mBarang;
 
+    private String activeUser;
+
     public Main() {
         conn = getConnection();
-        
+
         mPegawai = new Pegawai(conn);
         mBarang = new Barang(conn);
-        
+
         mLogin = new Login(this, mPegawai);
         mStock = new Stock(this, mBarang);
         mRestock = new Restock(this, mBarang);
         mPenjualan = new Penjualan();
+
+        activeUser = "";
     }
 
     public static void main(String[] args) {
@@ -45,7 +49,7 @@ public class Main {
             main.showRestock();
         });
     }
-    
+
     private Connection getConnection() {
         String server = "localhost";
         String database = "tokoanu";
@@ -61,7 +65,7 @@ public class Main {
             // show error
             JOptionPane.showMessageDialog(null, "Tidak dapat menyambung ke database", "Koneksi gagal", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         return null;
     }
 
@@ -76,15 +80,15 @@ public class Main {
     public void showStock() {
         mStock.setVisible(true);
     }
-    
+
     public void hideStock() {
         mStock.setVisible(false);
     }
-    
+
     public void showRestock() {
         mRestock.setVisible(true);
     }
-    
+
     public void hideRestock() {
         mRestock.setVisible(false);
     }
@@ -92,11 +96,19 @@ public class Main {
     public void showPenjualan() {
         mPenjualan.setVisible(true);
     }
-    
+
     public void hidePenjualan() {
         mPenjualan.setVisible(false);
     }
-    
+
+    public void setActiveUser(String userId) {
+        activeUser = userId;
+    }
+
+    public String getActiveUser() {
+        return activeUser;
+    }
+
     public void exit() {
         System.exit(0);
     }
