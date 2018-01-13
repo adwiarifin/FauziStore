@@ -1,10 +1,12 @@
 package com.fauzi.store;
 
+import com.fauzi.store.form.Discount;
 import com.fauzi.store.form.Login;
 import com.fauzi.store.form.Penjualan;
 import com.fauzi.store.form.Restock;
 import com.fauzi.store.form.Stock;
 import com.fauzi.store.model.Barang;
+import com.fauzi.store.model.Diskon;
 import com.fauzi.store.model.Pegawai;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,14 +19,16 @@ import javax.swing.JOptionPane;
  */
 public class Main {
 
-    private final Login mLogin;
-    private final Stock mStock;
-    private final Restock mRestock;
-    private final Penjualan mPenjualan;
+    private final Login fLogin;
+    private final Stock fStock;
+    private final Restock fRestock;
+    private final Penjualan fPenjualan;
+    private final Discount fDiscount;
 
     private final Connection conn;
     private final Pegawai mPegawai;
     private final Barang mBarang;
+    private final Diskon mDiskon;
 
     private String activeUser;
 
@@ -33,11 +37,13 @@ public class Main {
 
         mPegawai = new Pegawai(conn);
         mBarang = new Barang(conn);
+        mDiskon = new Diskon(conn);
 
-        mLogin = new Login(this);
-        mStock = new Stock(this);
-        mRestock = new Restock(this);
-        mPenjualan = new Penjualan();
+        fLogin = new Login(this);
+        fStock = new Stock(this);
+        fRestock = new Restock(this);
+        fDiscount = new Discount(this);
+        fPenjualan = new Penjualan();
 
         activeUser = "";
     }
@@ -46,7 +52,7 @@ public class Main {
         java.awt.EventQueue.invokeLater(() -> {
             Main main = new Main();
 //            main.showLogin();
-            main.showRestock();
+            main.showDiscount();
         });
     }
 
@@ -70,35 +76,43 @@ public class Main {
     }
 
     public void showLogin() {
-        mLogin.setVisible(true);
+        fLogin.setVisible(true);
     }
 
     public void hideLogin() {
-        mLogin.setVisible(false);
+        fLogin.setVisible(false);
     }
 
     public void showStock() {
-        mStock.setVisible(true);
+        fStock.setVisible(true);
     }
 
     public void hideStock() {
-        mStock.setVisible(false);
+        fStock.setVisible(false);
     }
 
     public void showRestock() {
-        mRestock.setVisible(true);
+        fRestock.setVisible(true);
     }
 
     public void hideRestock() {
-        mRestock.setVisible(false);
+        fRestock.setVisible(false);
+    }
+    
+    public void showDiscount() {
+        fDiscount.setVisible(true);
+    }
+
+    public void hideDiscount() {
+        fDiscount.setVisible(false);
     }
 
     public void showPenjualan() {
-        mPenjualan.setVisible(true);
+        fPenjualan.setVisible(true);
     }
 
     public void hidePenjualan() {
-        mPenjualan.setVisible(false);
+        fPenjualan.setVisible(false);
     }
     
     public Barang getModelBarang(){
@@ -107,6 +121,10 @@ public class Main {
     
     public Pegawai getModelPegawai(){
         return mPegawai;
+    }
+    
+    public Diskon getModelDiskon() {
+        return mDiskon;
     }
 
     public void setActiveUser(String userId) {
