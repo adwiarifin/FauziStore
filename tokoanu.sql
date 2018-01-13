@@ -1,58 +1,44 @@
-/*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.5.5-10.1.10-MariaDB : Database - tokoanu
-*********************************************************************
-*/
+-- Adminer 4.3.1 MySQL dump
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`tokoanu` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `tokoanu`;
-
-/*Table structure for table `barang` */
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `barang`;
-
 CREATE TABLE `barang` (
   `idbarang` varchar(10) NOT NULL,
   `namabarang` varchar(200) DEFAULT NULL,
-  `kategori` int(1) DEFAULT NULL,
+  `kategori` int(2) DEFAULT NULL,
   `hargabarang` int(11) DEFAULT '0',
   `jumlah` mediumint(9) DEFAULT '0',
   PRIMARY KEY (`idbarang`),
   KEY `kategori` (`kategori`),
-  CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`kategori`) REFERENCES `kategori` (`kategori`)
+  CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`kategori`) REFERENCES `kategori` (`idkategori`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `barang` */
+INSERT INTO `barang` (`idbarang`, `namabarang`, `kategori`, `hargabarang`, `jumlah`) VALUES
+('a10201',	'lampu taman',	4,	1265000,	3),
+('a10202',	'lampu hias',	5,	1100000,	3),
+('b10201',	'sonika',	3,	4250000,	2);
 
-/*Table structure for table `detail barang` */
-
-DROP TABLE IF EXISTS `detail barang`;
-
-CREATE TABLE `detail barang` (
+DROP TABLE IF EXISTS `detailbarang`;
+CREATE TABLE `detailbarang` (
   `idbarang` varchar(10) NOT NULL,
   `keterangan` text,
   `bahan` text,
   `satuan` varchar(10) NOT NULL,
   `ukuran` int(11) NOT NULL,
   PRIMARY KEY (`idbarang`),
-  CONSTRAINT `detail barang_ibfk_1` FOREIGN KEY (`idbarang`) REFERENCES `barang` (`idbarang`)
+  CONSTRAINT `detailbarang_ibfk_1` FOREIGN KEY (`idbarang`) REFERENCES `barang` (`idbarang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `detail barang` */
-
-/*Table structure for table `detailtransaksi` */
+INSERT INTO `detailbarang` (`idbarang`, `keterangan`, `bahan`, `satuan`, `ukuran`) VALUES
+('a10201',	'',	'iron composite metal with alumunium top',	'unit',	3),
+('a10202',	'bismillah',	'kertas',	'unit',	2),
+('b10201',	'alat musik',	'brass',	'unit',	0);
 
 DROP TABLE IF EXISTS `detailtransaksi`;
-
 CREATE TABLE `detailtransaksi` (
   `nojual` int(11) NOT NULL,
   `idbarang` varchar(10) NOT NULL,
@@ -66,12 +52,8 @@ CREATE TABLE `detailtransaksi` (
   CONSTRAINT `detailtransaksi_ibfk_2` FOREIGN KEY (`idbarang`) REFERENCES `barang` (`idbarang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `detailtransaksi` */
-
-/*Table structure for table `discount` */
 
 DROP TABLE IF EXISTS `discount`;
-
 CREATE TABLE `discount` (
   `iddiskon` mediumint(9) NOT NULL AUTO_INCREMENT,
   `namapromo` varchar(50) DEFAULT NULL,
@@ -82,49 +64,42 @@ CREATE TABLE `discount` (
   PRIMARY KEY (`iddiskon`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `discount` */
-
-/*Table structure for table `kategori` */
 
 DROP TABLE IF EXISTS `kategori`;
-
 CREATE TABLE `kategori` (
-  `kategori` int(1) NOT NULL,
-  `jenis` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`kategori`)
+  `idkategori` int(2) NOT NULL AUTO_INCREMENT,
+  `kategori` varchar(50) DEFAULT NULL,
+  `jenis` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`idkategori`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `kategori` */
-
-/*Table structure for table `pegawai` */
+INSERT INTO `kategori` (`idkategori`, `kategori`, `jenis`) VALUES
+(1,	'elektrikal',	'koleksi'),
+(2,	'elektrikal',	'perkakas'),
+(3,	'mekanikal',	'alat musik'),
+(4,	'dekorasi',	'outdoor'),
+(5,	'dekorasi',	'indoor');
 
 DROP TABLE IF EXISTS `pegawai`;
-
 CREATE TABLE `pegawai` (
   `idpegawai` varchar(5) NOT NULL,
   `namapegawai` varchar(100) NOT NULL,
-  `password` varchar(15) NOT NULL,
+  `password` varchar(32) NOT NULL,
   PRIMARY KEY (`idpegawai`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `pegawai` */
-
-/*Table structure for table `pembayaran` */
+INSERT INTO `pegawai` (`idpegawai`, `namapegawai`, `password`) VALUES
+('01234',	'Adwi Arifin',	'912ec803b2ce49e4a541068d495ab570');
 
 DROP TABLE IF EXISTS `pembayaran`;
-
 CREATE TABLE `pembayaran` (
   `idbayar` smallint(1) NOT NULL AUTO_INCREMENT,
   `jenisbayar` varchar(12) NOT NULL,
   PRIMARY KEY (`idbayar`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `pembayaran` */
-
-/*Table structure for table `transaksi` */
 
 DROP TABLE IF EXISTS `transaksi`;
-
 CREATE TABLE `transaksi` (
   `nojual` int(11) NOT NULL AUTO_INCREMENT,
   `tanggaljual` date DEFAULT NULL,
@@ -138,9 +113,5 @@ CREATE TABLE `transaksi` (
   CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`idbayar`) REFERENCES `pembayaran` (`idbayar`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `transaksi` */
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- 2018-01-13 01:01:26
