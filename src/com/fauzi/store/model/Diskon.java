@@ -53,7 +53,7 @@ public class Diskon {
         boolean result = false;
         try {
             String sql = "INSERT INTO diskon(namapromo, tglmulai, tglselesai, jnsdiskon, discount) VALUES(?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareCall(sql);
+            PreparedStatement stmt = conn.prepareStatement(sql);
             
             stmt.setString(1, nama);
             stmt.setString(2, mulai);
