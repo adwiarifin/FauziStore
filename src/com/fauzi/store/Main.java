@@ -8,6 +8,7 @@ import com.fauzi.store.form.Stock;
 import com.fauzi.store.model.Barang;
 import com.fauzi.store.model.Diskon;
 import com.fauzi.store.model.Pegawai;
+import com.fauzi.store.model.Transaksi;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -29,6 +30,7 @@ public class Main {
     private final Pegawai mPegawai;
     private final Barang mBarang;
     private final Diskon mDiskon;
+    private final Transaksi mTransaksi;
 
     private String activeUser;
 
@@ -38,12 +40,13 @@ public class Main {
         mPegawai = new Pegawai(conn);
         mBarang = new Barang(conn);
         mDiskon = new Diskon(conn);
+        mTransaksi = new Transaksi(conn);
 
         fLogin = new Login(this);
         fStock = new Stock(this);
         fRestock = new Restock(this);
         fDiscount = new Discount(this);
-        fPenjualan = new Penjualan();
+        fPenjualan = new Penjualan(this);
 
         activeUser = "";
     }
@@ -52,7 +55,7 @@ public class Main {
         java.awt.EventQueue.invokeLater(() -> {
             Main main = new Main();
 //            main.showLogin();
-            main.showDiscount();
+            main.showPenjualan();
         });
     }
 
@@ -125,6 +128,10 @@ public class Main {
     
     public Diskon getModelDiskon() {
         return mDiskon;
+    }
+    
+    public Transaksi getModelTransaksi() {
+        return mTransaksi;
     }
 
     public void setActiveUser(String userId) {

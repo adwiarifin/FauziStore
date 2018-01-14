@@ -1,16 +1,68 @@
 package com.fauzi.store.form;
 
+import com.fauzi.store.Main;
+import com.fauzi.store.model.Barang;
+import com.fauzi.store.model.Pegawai;
+import com.fauzi.store.model.Transaksi;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author fauzi
  */
 public class Penjualan extends javax.swing.JFrame {
 
+    private final Main main;
+    private final Barang barang;
+    private final Pegawai pegawai;
+    private final Transaksi transaksi;
+
     /**
      * Creates new form Penjualan
      */
-    public Penjualan() {
+    public Penjualan(Main objMain) {
+        this.main = objMain;
+        this.barang = objMain.getModelBarang();
+        this.pegawai = objMain.getModelPegawai();
+        this.transaksi = objMain.getModelTransaksi();
+        
         initComponents();
+        
+        // method bikin sendiri
+        loadNamaPegawai();
+        loadToday();
+        setDefaultJumlahBeli();
+        generateNota();
+    }
+    
+    private void loadNamaPegawai(){
+        String user = "01234"; // main.getActiveUser(); 
+        String nama = pegawai.getNamaPegawai(user);
+        lbNamaKasir.setText(nama);
+    }
+    
+    private void loadToday() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date now = new Date();
+        String text = sdf.format(now);
+        lbDateToday.setText(text);
+    }
+    
+    private void setDefaultJumlahBeli() {
+        spJumlahBeli.setValue(1);
+    }
+    
+    private void generateNota() {
+        int transaksiCount = transaksi.getTransaksiCount();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMM");
+        Date now = new Date();
+        
+        // Format Nota : YYMM####
+        String nota = sdf.format(now) + String.format("%04d", transaksiCount + 1);
+        
+        // set it to label
+        lbNota.setText(nota);
     }
 
     /**
@@ -31,17 +83,17 @@ public class Penjualan extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lbNamaKasir = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lbDateToday = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lbNota = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        spJumlahBeli = new javax.swing.JSpinner();
         jPanel6 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -139,18 +191,18 @@ public class Penjualan extends javax.swing.JFrame {
 
         jLabel2.setText("kasir");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel3.setText("nama kasir");
+        lbNamaKasir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lbNamaKasir.setText("nama kasir");
 
         jLabel4.setText("tanggal");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel5.setText("dd-mm-yyy");
+        lbDateToday.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lbDateToday.setText("dd-mm-yyy");
 
         jLabel6.setText("nomor nota");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel7.setText("0");
+        lbNota.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lbNota.setText("0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -160,15 +212,15 @@ public class Penjualan extends javax.swing.JFrame {
                 .addGap(45, 45, 45)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(lbNamaKasir)
                 .addGap(129, 129, 129)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(lbDateToday)
                 .addGap(130, 130, 130)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addComponent(lbNota)
                 .addContainerGap(255, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -177,21 +229,19 @@ public class Penjualan extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(lbNamaKasir))
                 .addContainerGap(17, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5)
+                    .addComponent(lbDateToday)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(lbNota))
                 .addContainerGap())
         );
 
         jLabel10.setText("jumlah");
-
-        jTextField3.setText("jTextField1");
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -218,8 +268,8 @@ public class Penjualan extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(41, 41, 41)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(spJumlahBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -231,8 +281,8 @@ public class Penjualan extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(spJumlahBeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -298,14 +348,13 @@ public class Penjualan extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addGap(27, 27, 27)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
                 .addComponent(jToggleButton2)
                 .addGap(70, 70, 70)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -392,6 +441,7 @@ public class Penjualan extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -410,11 +460,8 @@ public class Penjualan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
@@ -439,7 +486,10 @@ public class Penjualan extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JLabel lbDateToday;
+    private javax.swing.JLabel lbNamaKasir;
+    private javax.swing.JLabel lbNota;
+    private javax.swing.JSpinner spJumlahBeli;
     // End of variables declaration//GEN-END:variables
 }

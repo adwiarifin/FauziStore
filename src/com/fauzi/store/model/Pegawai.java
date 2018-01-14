@@ -47,4 +47,23 @@ public class Pegawai {
         }
         return result;
     }
+    
+    public String getNamaPegawai(String idPegawai) {
+        String result = null;
+        try {
+            String sql = "SELECT namapegawai FROM pegawai WHERE idpegawai = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idPegawai);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.last();
+                if (rs.getRow() > 0) {
+                    result = rs.getString("namapegawai");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Pegawai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 }

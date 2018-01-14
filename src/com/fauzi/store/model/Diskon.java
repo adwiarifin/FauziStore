@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Diskon {
 
-    public static final String[] DISKON_COLUMN_TITLE = {"Nama Promo", "Tgl Mulai", "Tgl Selesai", "Jenis Diskon"};
+    public static final String[] DISKON_COLUMN_TITLE = {"Nama Promo", "Tgl Mulai", "Tgl Selesai", "Jenis Diskon", "Diskon"};
     public static final int DISKON_COLUMN_COUNT = DISKON_COLUMN_TITLE.length;
     private final Connection conn;
 
@@ -24,7 +24,7 @@ public class Diskon {
     public String[][] getListDiskon() {
         String[][] result = null;
         try {
-            String sql = "SELECT namapromo, tglmulai, tglselesai, jnsdiskon FROM diskon ORDER BY iddiskon DESC";
+            String sql = "SELECT namapromo, tglmulai, tglselesai, jnsdiskon, discount FROM diskon ORDER BY iddiskon DESC";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -39,6 +39,7 @@ public class Diskon {
                     result[i][1] = rs.getString("tglmulai");
                     result[i][2] = rs.getString("tglselesai");
                     result[i][3] = rs.getString("jnsdiskon");
+                    result[i][4] = rs.getString("discount");
                     i++;
                 }
             }
