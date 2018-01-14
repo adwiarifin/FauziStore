@@ -1,16 +1,90 @@
 package com.fauzi.store.form;
 
+import com.fauzi.store.Main;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author fauzi
  */
 public class Pegawai extends javax.swing.JFrame {
 
+    private final Main main;
+    private final com.fauzi.store.model.Pegawai pegawai;
+
     /**
      * Creates new form Pegawai
      */
-    public Pegawai() {
+    public Pegawai(Main objMain) {
+        this.main = objMain;
+        this.pegawai = objMain.getModelPegawai();
+
         initComponents();
+        initSelectionListener();
+    }
+
+    public void initView() {
+        if (pegawai.isPegawaiAdmin(main.getActiveUser())) {
+            // admin user
+            loadPegawai();
+            jScrollPane1.setVisible(true);
+            clearInput();
+            pack();
+        } else {
+            // kasir user
+            jScrollPane1.setVisible(false);
+            tfIdPegawai.setEditable(false);
+            btClear.setVisible(false);
+
+            String user = main.getActiveUser();
+            String name = pegawai.getNamaPegawai(user);
+
+            tfIdPegawai.setText(user);
+            tfNamaPegawai.setText(name);
+            btInput.setText("Ubah");
+
+            pack();
+        }
+
+    }
+
+    private void loadPegawai() {
+        String[][] listPegawai = pegawai.getListPegawai();
+        DefaultTableModel modelPegawai = new DefaultTableModel(listPegawai, com.fauzi.store.model.Pegawai.PEGAWAI_COLUMN_TITLE);
+        tbPegawai.setModel(modelPegawai);
+    }
+
+    private void clearInput() {
+        tfIdPegawai.setText("");
+        tfNamaPegawai.setText("");
+        tfPassword.setText("");
+
+        tbPegawai.clearSelection();
+        lbPasswordWarning.setVisible(false);
+    }
+
+    private void initSelectionListener() {
+        tbPegawai.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int rowNumber = tbPegawai.getSelectedRow();
+                    if (rowNumber >= 0) {
+                        String id = tbPegawai.getValueAt(rowNumber, 0).toString();
+                        String nama = tbPegawai.getValueAt(rowNumber, 1).toString();
+
+                        tfIdPegawai.setText(id);
+                        tfNamaPegawai.setText(nama);
+                        btInput.setText("Ubah");
+                        lbPasswordWarning.setVisible(true);
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -28,15 +102,14 @@ public class Pegawai extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        tfIdPegawai = new javax.swing.JTextField();
+        tfNamaPegawai = new javax.swing.JTextField();
         btInput = new javax.swing.JButton();
         btClear = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        tfPassword = new javax.swing.JPasswordField();
+        lbPasswordWarning = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        btPassword = new javax.swing.JButton();
+        tbPegawai = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -79,10 +152,22 @@ public class Pegawai extends javax.swing.JFrame {
         jLabel4.setText("Password");
 
         btInput.setText("Masukkan");
+        btInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btInputActionPerformed(evt);
+            }
+        });
 
         btClear.setText("Bersihkan");
+        btClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btClearActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        lbPasswordWarning.setText("Biarkan kosong jika tidak ingin mengubah password");
+
+        tbPegawai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -93,26 +178,7 @@ public class Pegawai extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        btPassword.setText("Ubah");
+        jScrollPane1.setViewportView(tbPegawai);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -121,25 +187,30 @@ public class Pegawai extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btInput))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lbPasswordWarning)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tfNamaPegawai, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                                    .addComponent(tfIdPegawai, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfPassword))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btInput))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(btClear)))))))
                 .addContainerGap())
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,20 +218,22 @@ public class Pegawai extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfIdPegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btInput))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNamaPegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btClear))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btPassword))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbPasswordWarning)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jMenu1.setText("Form");
@@ -204,18 +277,91 @@ public class Pegawai extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btClearActionPerformed
+        // TODO add your handling code here:
+        clearInput();
+        tfIdPegawai.requestFocus();
+    }//GEN-LAST:event_btClearActionPerformed
+
+    private void btInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInputActionPerformed
+        // get input
+        String id = tfIdPegawai.getText().trim();
+        String nama = tfNamaPegawai.getText().trim();
+        String password = String.valueOf(tfPassword.getPassword());
+
+        // action button input
+        String text = btInput.getText();
+        if (text.equals("Masukkan")) {
+            // insert new pegawai
+            if (id.isEmpty()
+                    || nama.isEmpty()
+                    || password.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Pastikan semua masukan sudah terisi!", "Invalid Input", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            if (pegawai.insertPegawai(id, nama, password)) {
+                // informasikan jika insert berhasil
+                JOptionPane.showMessageDialog(rootPane, "Data pegawai baru berhasil dimasukkan", "Info", JOptionPane.INFORMATION_MESSAGE);
+                // reload barang
+                loadPegawai();
+                // siapkan untuk input baru
+                clearInput();
+                tfIdPegawai.requestFocus();
+            } else {
+                // informasikan jika insert gagal
+                JOptionPane.showMessageDialog(rootPane, "Data pegawai gagal dimasukkan", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        if (text.equals("Ubah")) {
+            // update current pegawai
+            if (nama.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Pastikan nama tidak kosong!", "Invalid Input", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            if (password.isEmpty()) {
+                // update nama saja
+                if (pegawai.updateNamaPegawai(id, nama)) {
+                    // informasikan jika update berhasil
+                    JOptionPane.showMessageDialog(rootPane, "Data nama pegawai baru berhasil diperbarui", "Info", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // informasikan jika update gagal
+                    JOptionPane.showMessageDialog(rootPane, "Data nama pegawai gagal diperbarui!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                // update nama dan password
+                if (pegawai.updateNamaPegawai(id, nama) && pegawai.updatePasswordPegawai(id, password)) {
+                    // informasikan jika update berhasil
+                    JOptionPane.showMessageDialog(rootPane, "Data nama pegawai dan password baru berhasil diperbarui", "Info", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // informasikan jika update gagal
+                    JOptionPane.showMessageDialog(rootPane, "Data nama pegawai dan password gagal diperbarui!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+            if (pegawai.isPegawaiAdmin(main.getActiveUser())) {
+                System.out.println("called");
+                // reload barang
+                loadPegawai();
+                // siapkan untuk input baru
+                clearInput();
+                btInput.setText("Masukkan");
+                tfIdPegawai.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_btInputActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btClear;
     private javax.swing.JButton btInput;
-    private javax.swing.JButton btPassword;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -231,12 +377,12 @@ public class Pegawai extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lbPasswordWarning;
+    private javax.swing.JTable tbPegawai;
+    private javax.swing.JTextField tfIdPegawai;
+    private javax.swing.JTextField tfNamaPegawai;
+    private javax.swing.JPasswordField tfPassword;
     // End of variables declaration//GEN-END:variables
 }

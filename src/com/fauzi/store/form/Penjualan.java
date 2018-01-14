@@ -37,7 +37,7 @@ public class Penjualan extends javax.swing.JFrame {
     }
     
     private void loadNamaPegawai(){
-        String user = "01234"; // main.getActiveUser(); 
+        String user = main.getActiveUser(); 
         String nama = pegawai.getNamaPegawai(user);
         lbNamaKasir.setText(nama);
     }

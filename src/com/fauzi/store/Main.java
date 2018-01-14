@@ -25,6 +25,7 @@ public class Main {
     private final Restock fRestock;
     private final Penjualan fPenjualan;
     private final Discount fDiscount;
+    private final com.fauzi.store.form.Pegawai fPegawai;
 
     private final Connection conn;
     private final Pegawai mPegawai;
@@ -47,6 +48,7 @@ public class Main {
         fRestock = new Restock(this);
         fDiscount = new Discount(this);
         fPenjualan = new Penjualan(this);
+        fPegawai = new com.fauzi.store.form.Pegawai(this);
 
         activeUser = "";
     }
@@ -55,7 +57,8 @@ public class Main {
         java.awt.EventQueue.invokeLater(() -> {
             Main main = new Main();
 //            main.showLogin();
-            main.showPenjualan();
+            main.setActiveUser("O01");
+            main.showPegawai();
         });
     }
 
@@ -73,6 +76,7 @@ public class Main {
         } catch (ClassNotFoundException | SQLException ex) {
             // show error
             JOptionPane.showMessageDialog(null, "Tidak dapat menyambung ke database", "Koneksi gagal", JOptionPane.ERROR_MESSAGE);
+            exit();
         }
 
         return null;
@@ -116,6 +120,15 @@ public class Main {
 
     public void hidePenjualan() {
         fPenjualan.setVisible(false);
+    }
+    
+    public void showPegawai() {
+        fPegawai.initView();
+        fPegawai.setVisible(true);
+    }
+
+    public void hidePegawai() {
+        fPegawai.setVisible(false);
     }
     
     public Barang getModelBarang(){
