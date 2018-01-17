@@ -58,7 +58,7 @@ public class Main {
             Main main = new Main();
 //            main.showLogin();
             main.setActiveUser("O01");
-            main.showPegawai();
+            main.showPenjualan();
         });
     }
 
@@ -115,6 +115,7 @@ public class Main {
     }
 
     public void showPenjualan() {
+        fPenjualan.initData();
         fPenjualan.setVisible(true);
     }
 

@@ -6,6 +6,9 @@ import com.fauzi.store.model.Pegawai;
 import com.fauzi.store.model.Transaksi;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +23,7 @@ public class Penjualan extends javax.swing.JFrame {
 
     /**
      * Creates new form Penjualan
+     * @param objMain
      */
     public Penjualan(Main objMain) {
         this.main = objMain;
@@ -28,12 +32,36 @@ public class Penjualan extends javax.swing.JFrame {
         this.transaksi = objMain.getModelTransaksi();
         
         initComponents();
-        
+        initDocumentListener();
+    }
+    
+    public void initData(){
         // method bikin sendiri
         loadNamaPegawai();
         loadToday();
         setDefaultJumlahBeli();
         generateNota();
+        loadBarang("");
+    }
+    
+    private void initDocumentListener() {
+        tfSearch.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadBarang(tfSearch.getText().toLowerCase().trim());
+            }
+        });
     }
     
     private void loadNamaPegawai(){
@@ -64,6 +92,18 @@ public class Penjualan extends javax.swing.JFrame {
         // set it to label
         lbNota.setText(nota);
     }
+    
+    private void loadBarang(String keyword) {
+        DefaultTableModel modelBarang = new DefaultTableModel(null, Barang.BARANG_COLUMN_TITLE);
+        modelBarang.setRowCount(0);
+
+        String[][] listBarang = keyword.isEmpty() ? barang.getListBarang() : barang.getListBarang(keyword);
+        for (String[] data : listBarang) {
+            modelBarang.addRow(data);
+        }
+
+        tbBarang.setModel(modelBarang);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,9 +118,9 @@ public class Penjualan extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbBarang = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lbNamaKasir = new javax.swing.JLabel();
@@ -91,14 +131,14 @@ public class Penjualan extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tbTransaksi = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         spJumlahBeli = new javax.swing.JSpinner();
         jPanel6 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
@@ -147,9 +187,7 @@ public class Penjualan extends javax.swing.JFrame {
 
         jLabel8.setText("cari barang");
 
-        jTextField1.setText("jTextField1");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -160,7 +198,7 @@ public class Penjualan extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbBarang);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -173,7 +211,7 @@ public class Penjualan extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(41, 41, 41)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -183,7 +221,7 @@ public class Penjualan extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -243,7 +281,7 @@ public class Penjualan extends javax.swing.JFrame {
 
         jLabel10.setText("jumlah");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tbTransaksi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -254,7 +292,7 @@ public class Penjualan extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tbTransaksi);
 
         jButton1.setText("input");
 
@@ -295,7 +333,7 @@ public class Penjualan extends javax.swing.JFrame {
 
         jLabel9.setText("pembayaran");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel13.setText("jumlah bayar");
 
@@ -482,14 +520,14 @@ public class Penjualan extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JLabel lbDateToday;
     private javax.swing.JLabel lbNamaKasir;
     private javax.swing.JLabel lbNota;
     private javax.swing.JSpinner spJumlahBeli;
+    private javax.swing.JTable tbBarang;
+    private javax.swing.JTable tbTransaksi;
+    private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables
 }
