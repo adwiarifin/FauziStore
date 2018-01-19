@@ -6,6 +6,7 @@ import com.fauzi.store.model.Pegawai;
 import com.fauzi.store.model.Transaksi;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +21,7 @@ public class Penjualan extends javax.swing.JFrame {
     private final Barang barang;
     private final Pegawai pegawai;
     private final Transaksi transaksi;
+    private DefaultTableModel mTransaksi;
 
     /**
      * Creates new form Penjualan
@@ -33,6 +35,7 @@ public class Penjualan extends javax.swing.JFrame {
         
         initComponents();
         initDocumentListener();
+        initTransaksiModel();
     }
     
     public void initData(){
@@ -62,6 +65,12 @@ public class Penjualan extends javax.swing.JFrame {
                 loadBarang(tfSearch.getText().toLowerCase().trim());
             }
         });
+    }
+    
+    private void initTransaksiModel(){
+        String[] columns = new String[]{"ID Barang", "Nama Barang", "Harga", "Total Beli", "Subtotal"};
+        mTransaksi = new DefaultTableModel(null, columns);
+        tbTransaksi.setModel(mTransaksi);
     }
     
     private void loadNamaPegawai(){
@@ -104,6 +113,16 @@ public class Penjualan extends javax.swing.JFrame {
 
         tbBarang.setModel(modelBarang);
     }
+    
+    private void countGrandTotal(){
+        int totalRow = tbTransaksi.getRowCount();
+        int grandTotal = 0;
+        for (int i = 0; i < totalRow; i++) {
+            int subTotal = Integer.parseInt(tbTransaksi.getValueAt(i, 4).toString());
+            grandTotal += subTotal;
+        }
+        lbGrandTotal.setText("" + grandTotal);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -132,11 +151,11 @@ public class Penjualan extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbTransaksi = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btInput = new javax.swing.JButton();
         spJumlahBeli = new javax.swing.JSpinner();
         jPanel6 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        lbGrandTotal = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<String>();
         jLabel13 = new javax.swing.JLabel();
@@ -294,7 +313,12 @@ public class Penjualan extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tbTransaksi);
 
-        jButton1.setText("input");
+        btInput.setText("input");
+        btInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btInputActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -309,7 +333,7 @@ public class Penjualan extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addComponent(spJumlahBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(btInput)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -319,7 +343,7 @@ public class Penjualan extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jButton1)
+                    .addComponent(btInput)
                     .addComponent(spJumlahBeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,8 +352,8 @@ public class Penjualan extends javax.swing.JFrame {
 
         jLabel11.setText("Total Tagihan");
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel12.setText("0");
+        lbGrandTotal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbGrandTotal.setText("0");
 
         jLabel9.setText("pembayaran");
 
@@ -375,18 +399,18 @@ public class Penjualan extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel14))
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
+                                .addComponent(lbGrandTotal)
                                 .addGap(188, 188, 188)
                                 .addComponent(jLabel13)))
                         .addGap(28, 28, 28)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15)))
+                            .addComponent(jLabel15)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addGap(27, 27, 27)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(jToggleButton2)
                 .addGap(70, 70, 70)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -403,7 +427,7 @@ public class Penjualan extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel12)
+                            .addComponent(lbGrandTotal)
                             .addComponent(jLabel13)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2))
@@ -482,8 +506,28 @@ public class Penjualan extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInputActionPerformed
+        // get selection
+        int rowNumber = tbBarang.getSelectedRow();
+        if (rowNumber > -1) {
+            String idBarang = tbBarang.getValueAt(rowNumber, 0).toString();
+            String namaBarang = tbBarang.getValueAt(rowNumber, 1).toString();
+            String harga = tbBarang.getValueAt(rowNumber, 4).toString();
+            int iHarga = Integer.parseInt(harga);
+            int totalBeli = Integer.parseInt(spJumlahBeli.getValue().toString());
+            int subTotal = iHarga * totalBeli;
+            String[] row = new String[]{idBarang, namaBarang, "" + iHarga, "" + totalBeli, "" + subTotal};
+            mTransaksi.addRow(row);
+            
+            countGrandTotal();
+        } else {
+            // show warning
+            JOptionPane.showMessageDialog(rootPane, "Pilih data dari tabel barang di atas terlebih dahulu!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btInputActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btInput;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -491,7 +535,6 @@ public class Penjualan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -523,6 +566,7 @@ public class Penjualan extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JLabel lbDateToday;
+    private javax.swing.JLabel lbGrandTotal;
     private javax.swing.JLabel lbNamaKasir;
     private javax.swing.JLabel lbNota;
     private javax.swing.JSpinner spJumlahBeli;
