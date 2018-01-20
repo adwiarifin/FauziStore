@@ -1,12 +1,18 @@
--- Adminer 4.3.1 MySQL dump
+-- --------------------------------------------------------
+-- Host:                         localhost
+-- Server version:               5.7.18 - MySQL Community Server (GPL)
+-- Server OS:                    Win64
+-- HeidiSQL Version:             9.4.0.5125
+-- --------------------------------------------------------
 
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-DROP TABLE IF EXISTS `barang`;
-CREATE TABLE `barang` (
+-- Dumping structure for table tokoanu.barang
+CREATE TABLE IF NOT EXISTS `barang` (
   `idbarang` varchar(10) NOT NULL,
   `namabarang` varchar(200) DEFAULT NULL,
   `kategori` int(2) DEFAULT NULL,
@@ -17,13 +23,16 @@ CREATE TABLE `barang` (
   CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`kategori`) REFERENCES `kategori` (`idkategori`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- Dumping data for table tokoanu.barang: ~2 rows (approximately)
+/*!40000 ALTER TABLE `barang` DISABLE KEYS */;
 INSERT INTO `barang` (`idbarang`, `namabarang`, `kategori`, `hargabarang`, `jumlah`) VALUES
-('a10201',	'lampu taman',	4,	1265000,	3),
-('a10202',	'lampu hias',	5,	1100000,	3),
-('b10201',	'sonika',	3,	4250000,	2);
+	('a10201', 'lampu taman', 4, 1265000, 3),
+	('a10202', 'lampu hias', 5, 1100000, 3),
+	('b10201', 'sonika', 3, 4250000, 2);
+/*!40000 ALTER TABLE `barang` ENABLE KEYS */;
 
-DROP TABLE IF EXISTS `detailbarang`;
-CREATE TABLE `detailbarang` (
+-- Dumping structure for table tokoanu.detailbarang
+CREATE TABLE IF NOT EXISTS `detailbarang` (
   `idbarang` varchar(10) NOT NULL,
   `keterangan` text,
   `bahan` text,
@@ -33,13 +42,16 @@ CREATE TABLE `detailbarang` (
   CONSTRAINT `detailbarang_ibfk_1` FOREIGN KEY (`idbarang`) REFERENCES `barang` (`idbarang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- Dumping data for table tokoanu.detailbarang: ~2 rows (approximately)
+/*!40000 ALTER TABLE `detailbarang` DISABLE KEYS */;
 INSERT INTO `detailbarang` (`idbarang`, `keterangan`, `bahan`, `satuan`, `ukuran`) VALUES
-('a10201',	'',	'iron composite metal with alumunium top',	'unit',	3),
-('a10202',	'bismillah',	'kertas',	'unit',	2),
-('b10201',	'alat musik',	'brass',	'unit',	0);
+	('a10201', '', 'iron composite metal with alumunium top', 'unit', 3),
+	('a10202', 'bismillah', 'kertas', 'unit', 2),
+	('b10201', 'alat musik', 'brass', 'unit', 0);
+/*!40000 ALTER TABLE `detailbarang` ENABLE KEYS */;
 
-DROP TABLE IF EXISTS `detailtransaksi`;
-CREATE TABLE `detailtransaksi` (
+-- Dumping structure for table tokoanu.detailtransaksi
+CREATE TABLE IF NOT EXISTS `detailtransaksi` (
   `nojual` int(11) NOT NULL,
   `idbarang` varchar(10) NOT NULL,
   `jmlbarang` int(11) NOT NULL,
@@ -52,9 +64,12 @@ CREATE TABLE `detailtransaksi` (
   CONSTRAINT `detailtransaksi_ibfk_2` FOREIGN KEY (`idbarang`) REFERENCES `barang` (`idbarang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- Dumping data for table tokoanu.detailtransaksi: ~0 rows (approximately)
+/*!40000 ALTER TABLE `detailtransaksi` DISABLE KEYS */;
+/*!40000 ALTER TABLE `detailtransaksi` ENABLE KEYS */;
 
-DROP TABLE IF EXISTS `discount`;
-CREATE TABLE `discount` (
+-- Dumping structure for table tokoanu.diskon
+CREATE TABLE IF NOT EXISTS `diskon` (
   `iddiskon` mediumint(9) NOT NULL AUTO_INCREMENT,
   `namapromo` varchar(50) DEFAULT NULL,
   `tglmulai` date DEFAULT NULL,
@@ -64,43 +79,60 @@ CREATE TABLE `discount` (
   PRIMARY KEY (`iddiskon`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- Dumping data for table tokoanu.diskon: ~0 rows (approximately)
+/*!40000 ALTER TABLE `diskon` DISABLE KEYS */;
+/*!40000 ALTER TABLE `diskon` ENABLE KEYS */;
 
-DROP TABLE IF EXISTS `kategori`;
-CREATE TABLE `kategori` (
+-- Dumping structure for table tokoanu.kategori
+CREATE TABLE IF NOT EXISTS `kategori` (
   `idkategori` int(2) NOT NULL AUTO_INCREMENT,
   `kategori` varchar(50) DEFAULT NULL,
   `jenis` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`idkategori`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
+-- Dumping data for table tokoanu.kategori: ~5 rows (approximately)
+/*!40000 ALTER TABLE `kategori` DISABLE KEYS */;
 INSERT INTO `kategori` (`idkategori`, `kategori`, `jenis`) VALUES
-(1,	'elektrikal',	'koleksi'),
-(2,	'elektrikal',	'perkakas'),
-(3,	'mekanikal',	'alat musik'),
-(4,	'dekorasi',	'outdoor'),
-(5,	'dekorasi',	'indoor');
+	(1, 'elektrikal', 'koleksi'),
+	(2, 'elektrikal', 'perkakas'),
+	(3, 'mekanikal', 'alat musik'),
+	(4, 'dekorasi', 'outdoor'),
+	(5, 'dekorasi', 'indoor');
+/*!40000 ALTER TABLE `kategori` ENABLE KEYS */;
 
-DROP TABLE IF EXISTS `pegawai`;
-CREATE TABLE `pegawai` (
+-- Dumping structure for table tokoanu.pegawai
+CREATE TABLE IF NOT EXISTS `pegawai` (
   `idpegawai` varchar(5) NOT NULL,
   `namapegawai` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL,
   PRIMARY KEY (`idpegawai`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- Dumping data for table tokoanu.pegawai: ~2 rows (approximately)
+/*!40000 ALTER TABLE `pegawai` DISABLE KEYS */;
 INSERT INTO `pegawai` (`idpegawai`, `namapegawai`, `password`) VALUES
-('01234',	'Adwi Arifin',	'912ec803b2ce49e4a541068d495ab570');
+	('K01', 'Adwi Arifin', '5d41402abc4b2a76b9719d911017c592'),
+	('O01', 'Afnan Fauzi', '5d41402abc4b2a76b9719d911017c592');
+/*!40000 ALTER TABLE `pegawai` ENABLE KEYS */;
 
-DROP TABLE IF EXISTS `pembayaran`;
-CREATE TABLE `pembayaran` (
+-- Dumping structure for table tokoanu.pembayaran
+CREATE TABLE IF NOT EXISTS `pembayaran` (
   `idbayar` smallint(1) NOT NULL AUTO_INCREMENT,
   `jenisbayar` varchar(12) NOT NULL,
   PRIMARY KEY (`idbayar`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
+-- Dumping data for table tokoanu.pembayaran: ~0 rows (approximately)
+/*!40000 ALTER TABLE `pembayaran` DISABLE KEYS */;
+INSERT INTO `pembayaran` (`idbayar`, `jenisbayar`) VALUES
+	(1, 'Cash'),
+	(2, 'Transfer'),
+	(3, 'Debit');
+/*!40000 ALTER TABLE `pembayaran` ENABLE KEYS */;
 
-DROP TABLE IF EXISTS `transaksi`;
-CREATE TABLE `transaksi` (
+-- Dumping structure for table tokoanu.transaksi
+CREATE TABLE IF NOT EXISTS `transaksi` (
   `nojual` int(11) NOT NULL AUTO_INCREMENT,
   `tanggaljual` date DEFAULT NULL,
   `totaljual` int(11) DEFAULT NULL,
@@ -113,5 +145,10 @@ CREATE TABLE `transaksi` (
   CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`idbayar`) REFERENCES `pembayaran` (`idbayar`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- Dumping data for table tokoanu.transaksi: ~0 rows (approximately)
+/*!40000 ALTER TABLE `transaksi` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaksi` ENABLE KEYS */;
 
--- 2018-01-13 01:01:26
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
