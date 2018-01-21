@@ -18,6 +18,7 @@ public class Discount extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
+     * @param objMain
      */
     public Discount(Main objMain) {
         this.main = objMain;

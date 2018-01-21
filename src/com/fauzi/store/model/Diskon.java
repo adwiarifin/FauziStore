@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Diskon {
 
-    public static final String[] DISKON_COLUMN_TITLE = {"Nama Promo", "Tgl Mulai", "Tgl Selesai", "Jenis Diskon", "Diskon"};
+    public static final String[] DISKON_COLUMN_TITLE = {"Nama Barang", "Tgl Mulai", "Tgl Selesai", "Diskon"};
     public static final int DISKON_COLUMN_COUNT = DISKON_COLUMN_TITLE.length;
     private final Connection conn;
 
@@ -24,7 +24,7 @@ public class Diskon {
     public String[][] getListDiskon() {
         String[][] result = null;
         try {
-            String sql = "SELECT namapromo, tglmulai, tglselesai, jnsdiskon, discount FROM diskon ORDER BY iddiskon DESC";
+            String sql = "SELECT b.namabarang, d.tglmulai, d.tglselesai, d.discount FROM diskon d, barang b WHERE d.idbarang = b.idbarang ORDER BY iddiskon DESC";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -35,11 +35,10 @@ public class Diskon {
                 rs.beforeFirst();
                 int i = 0;
                 while (rs.next()) {
-                    result[i][0] = rs.getString("namapromo");
+                    result[i][0] = rs.getString("namabarang");
                     result[i][1] = rs.getString("tglmulai");
                     result[i][2] = rs.getString("tglselesai");
-                    result[i][3] = rs.getString("jnsdiskon");
-                    result[i][4] = rs.getString("discount");
+                    result[i][3] = rs.getString("discount");
                     i++;
                 }
             }
@@ -68,6 +67,26 @@ public class Diskon {
             }
         } catch (SQLException ex) {
             Logger.getLogger(Diskon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public int getActiveDiscountItem(String idBarang) {
+        int result = 0;
+        try {
+            String sql = "SELECT iddiskon, discount FROM diskon WHERE idbarang = ? AND CURDATE() BETWEEN tglmulai and tglselesai LIMIT 1";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            stmt.setString(1, idBarang);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.last();
+                if (rs.getRow() > 0) {
+                    result = rs.getInt("discount");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Transaksi.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
