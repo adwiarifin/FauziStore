@@ -40,6 +40,10 @@ public class Penjualan extends javax.swing.JFrame {
         initComponents();
         initDocumentListener();
         initTransaksiModel();
+        
+        // hide unused button
+        jButton3.setVisible(false);
+        jButton4.setVisible(false);
     }
 
     public void initData() {
@@ -210,7 +214,7 @@ public class Penjualan extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         lbGrandTotal = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        cbPembayaran = new javax.swing.JComboBox<>();
+        cbPembayaran = new javax.swing.JComboBox<String>();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         tfTotalBayar = new javax.swing.JTextField();
@@ -219,7 +223,7 @@ public class Penjualan extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         lbDiscount = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btHapusTransaksi = new javax.swing.JButton();
         btSelesai = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -410,7 +414,7 @@ public class Penjualan extends javax.swing.JFrame {
 
         jLabel9.setText("pembayaran");
 
-        cbPembayaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash", "Transfer", "Debit" }));
+        cbPembayaran.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cash", "Transfer", "Debit" }));
 
         jLabel13.setText("jumlah bayar");
 
@@ -424,15 +428,22 @@ public class Penjualan extends javax.swing.JFrame {
         lbKembali.setText("0");
 
         jButton3.setText("Edit Jumlah");
+        jButton3.setEnabled(false);
 
         jButton4.setText("Next Transaction");
+        jButton4.setEnabled(false);
 
         jLabel16.setText("Discount");
 
         lbDiscount.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         lbDiscount.setText("0");
 
-        jButton2.setText("Hapus Transaksi");
+        btHapusTransaksi.setText("Hapus Transaksi");
+        btHapusTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btHapusTransaksiActionPerformed(evt);
+            }
+        });
 
         btSelesai.setText("Selesai");
         btSelesai.addActionListener(new java.awt.event.ActionListener() {
@@ -476,7 +487,7 @@ public class Penjualan extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btHapusTransaksi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -490,7 +501,7 @@ public class Penjualan extends javax.swing.JFrame {
                             .addComponent(lbGrandTotal)
                             .addComponent(jLabel13)
                             .addComponent(tfTotalBayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addComponent(btHapusTransaksi))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -702,11 +713,20 @@ public class Penjualan extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void btHapusTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHapusTransaksiActionPerformed
+        // TODO add your handling code here:
+        if (tbTransaksi.getSelectedRow() >= 0) {
+            mTransaksi.removeRow(tbTransaksi.getSelectedRow());
+            calcGrandTotal();
+            calcRetur();
+        }
+    }//GEN-LAST:event_btHapusTransaksiActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btHapusTransaksi;
     private javax.swing.JButton btInput;
     private javax.swing.JToggleButton btSelesai;
     private javax.swing.JComboBox<String> cbPembayaran;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
