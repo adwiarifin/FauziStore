@@ -40,7 +40,7 @@ public class Penjualan extends javax.swing.JFrame {
         initComponents();
         initDocumentListener();
         initTransaksiModel();
-        
+
         // hide unused button
         jButton3.setVisible(false);
         jButton4.setVisible(false);
@@ -618,19 +618,27 @@ public class Penjualan extends javax.swing.JFrame {
             int totalBeli = Integer.parseInt(spJumlahBeli.getValue().toString());
             int potongan = diskon.getActiveDiscountItem(idBarang);
             int subTotal = iHarga * totalBeli - potongan;
-            String[] row = new String[]{
-                idBarang,
-                namaBarang,
-                String.valueOf(iHarga),
-                String.valueOf(totalBeli),
-                String.valueOf(potongan),
-                String.valueOf(subTotal)
-            };
-            mTransaksi.addRow(row);
+            int stock = Integer.parseInt(tbBarang.getValueAt(rowNumber, 5).toString());
+            
+            // pastikan bahwa pembelian tidak melebihi stock
+            if (stock - totalBeli >= 0) {
+                String[] row = new String[]{
+                    idBarang,
+                    namaBarang,
+                    String.valueOf(iHarga),
+                    String.valueOf(totalBeli),
+                    String.valueOf(potongan),
+                    String.valueOf(subTotal)
+                };
+                mTransaksi.addRow(row);
 
-            setDefaultJumlahBeli();
-            calcGrandTotal();
-            calcRetur();
+                setDefaultJumlahBeli();
+                calcGrandTotal();
+                calcRetur();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Jumlah pembelian anda tidak valid, melebihi dari stock yang tersedia", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+
         } else {
             // show warning
             JOptionPane.showMessageDialog(rootPane, "Pilih data dari tabel barang di atas terlebih dahulu!", "Warning", JOptionPane.WARNING_MESSAGE);
