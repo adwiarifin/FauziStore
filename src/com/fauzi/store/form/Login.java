@@ -119,7 +119,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Selamat datang di Fauzy Store", "Login Success", JOptionPane.INFORMATION_MESSAGE);
             main.setActiveUser(idPegawai);
             main.hideLogin();
-            main.showStock();
+            main.showPenjualan();
         } else {
             JOptionPane.showMessageDialog(rootPane, "ID Pegawai dan password tidak sesuai", "Login Error", JOptionPane.ERROR_MESSAGE);
             clearInput();

@@ -56,9 +56,9 @@ public class Main {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
             Main main = new Main();
-//            main.showLogin();
-            main.setActiveUser("O01");
-            main.showPenjualan();
+            main.showLogin();
+//            main.setActiveUser("O01");
+//            main.showPenjualan();
         });
     }
 
