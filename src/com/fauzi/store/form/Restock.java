@@ -23,6 +23,7 @@ public class Restock extends javax.swing.JFrame {
      *
      * @param objMain
      */
+    
     public Restock(Main objMain) {
         this.main = objMain;
         this.barang = objMain.getModelBarang();
@@ -56,15 +57,12 @@ public class Restock extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         tfId = new javax.swing.JTextField();
         tfNama = new javax.swing.JTextField();
-        tfJenis = new javax.swing.JTextField();
-        cbKategori = new javax.swing.JComboBox<>();
+        cbKategori = new javax.swing.JComboBox<String>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        tfBahan = new javax.swing.JTextField();
-        tfSatuan = new javax.swing.JTextField();
+        tfMerk = new javax.swing.JTextField();
         tfUkuran = new javax.swing.JTextField();
         jScrollketerangan = new javax.swing.JScrollPane();
         textKeterangan = new javax.swing.JTextArea();
@@ -73,6 +71,7 @@ public class Restock extends javax.swing.JFrame {
         btSimpan = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         spStock = new javax.swing.JSpinner();
+        cbJenis = new javax.swing.JComboBox<String>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbRestock = new javax.swing.JTable();
@@ -94,8 +93,9 @@ public class Restock extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 22)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Nama toko");
+        jLabel1.setText("Solo Sepatu");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,14 +104,14 @@ public class Restock extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(759, Short.MAX_VALUE))
+                .addContainerGap(713, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         bgJenisRestock.add(rdBaru);
@@ -150,29 +150,20 @@ public class Restock extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), tfNama, org.jdesktop.beansbinding.BeanProperty.create("editable"));
         bindingGroup.addBinding(binding);
 
-        tfJenis.setNextFocusableComponent(tfHarga);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), tfJenis, org.jdesktop.beansbinding.BeanProperty.create("editable"));
-        bindingGroup.addBinding(binding);
-
-        cbKategori.setNextFocusableComponent(tfJenis);
+        cbKategori.setNextFocusableComponent(cbJenis);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), cbKategori, org.jdesktop.beansbinding.BeanProperty.create("editable"));
         bindingGroup.addBinding(binding);
 
         jLabel7.setText("Harga");
 
-        jLabel8.setText("Bahan");
-
-        jLabel9.setText("Satuan");
+        jLabel8.setText("Merk");
 
         jLabel10.setText("Ukuran");
 
         jLabel11.setText("Keterangan");
 
-        tfBahan.setNextFocusableComponent(tfSatuan);
-
-        tfSatuan.setNextFocusableComponent(tfUkuran);
+        tfMerk.setNextFocusableComponent(tfUkuran);
 
         tfUkuran.setNextFocusableComponent(textKeterangan);
 
@@ -185,7 +176,6 @@ public class Restock extends javax.swing.JFrame {
         tfHarga.setNextFocusableComponent(spStock);
 
         btAddKategori.setText("+");
-        btAddKategori.setNextFocusableComponent(tfJenis);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), btAddKategori, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -206,8 +196,13 @@ public class Restock extends javax.swing.JFrame {
 
         jLabel12.setText("Stock");
 
-        spStock.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        spStock.setNextFocusableComponent(tfBahan);
+        spStock.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spStock.setNextFocusableComponent(tfMerk);
+
+        cbJenis.setNextFocusableComponent(tfHarga);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rdBaru, org.jdesktop.beansbinding.ELProperty.create("${selected}"), cbJenis, org.jdesktop.beansbinding.BeanProperty.create("editable"));
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -217,45 +212,42 @@ public class Restock extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5)
                     .addComponent(jLabel6)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdBaru)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel12))
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdRestock)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(tfJenis, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(tfNama, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(tfId, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(cbKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, 128, Short.MAX_VALUE)
-                                        .addComponent(tfHarga)))
+                                    .addComponent(tfNama, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfId, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, 128, Short.MAX_VALUE)
+                                    .addComponent(tfHarga)
+                                    .addComponent(cbJenis, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btAddKategori)
                                 .addGap(72, 72, 72)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
                                     .addComponent(jLabel8)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel11)
+                                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel10))
-                                        .addGap(18, 18, 18)
+                                        .addGap(30, 30, 30)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(btSimpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jScrollketerangan, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                                            .addComponent(tfBahan)
-                                            .addComponent(tfSatuan)
+                                            .addComponent(tfMerk)
                                             .addComponent(tfUkuran)))))))
                     .addComponent(jLabel7))
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addContainerGap(181, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,38 +257,29 @@ public class Restock extends javax.swing.JFrame {
                     .addComponent(rdBaru)
                     .addComponent(rdRestock))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)
-                            .addComponent(tfBahan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(tfNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9)
-                            .addComponent(tfSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btAddKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10)
-                        .addComponent(tfUkuran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(tfMerk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(tfNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(tfUkuran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollketerangan, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btAddKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btSimpan))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(tfJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
+                            .addComponent(cbJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
@@ -304,7 +287,10 @@ public class Restock extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btSimpan)))
+                    .addComponent(jLabel11)
+                    .addComponent(jScrollketerangan, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -333,7 +319,7 @@ public class Restock extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -344,7 +330,8 @@ public class Restock extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Form");
@@ -443,36 +430,34 @@ public class Restock extends javax.swing.JFrame {
         String idBarang = tfId.getText().trim().toLowerCase();
         String namaBarang = tfNama.getText().trim();
         String kategori = cbKategori.getItemAt(cbKategori.getSelectedIndex());
-        String jenis = tfJenis.getText().trim().toLowerCase();
+        String jenis = cbJenis.getItemAt(cbJenis.getSelectedIndex());
         int harga = tfHarga.getText().trim().isEmpty() ? 0 : Integer.parseInt(tfHarga.getText().trim());
         int stock = Integer.parseInt(spStock.getValue().toString());
-        String bahan = tfBahan.getText().trim();
-        String satuan = tfSatuan.getText().trim();
-        String ukuran = tfUkuran.getText().trim();
+        String merk = tfMerk.getText().trim();
+        int ukuran = tfUkuran.getText().trim().isEmpty()? 0 : Integer.parseInt(tfUkuran.getText().trim());
         String keterangan = textKeterangan.getText().trim();
 
         if (idBarang.isEmpty()
                 || namaBarang.isEmpty()
                 || kategori.isEmpty()
                 || kategori.isEmpty()
-                || jenis.isEmpty()
-                || harga == 0
-                || bahan.isEmpty()
-                || satuan.isEmpty()
-                || ukuran.isEmpty()) {
+                || jenis.isEmpty()                
+                || ukuran == 0 
+                || harga == 0 ){
             JOptionPane.showMessageDialog(rootPane, "Pastikan semua masukan sudah terisi!", "Invalid Input", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
         if (rdBaru.isSelected()) {
             // insert barang
-            if (barang.insertBarang(idBarang, namaBarang, kategori, jenis, harga, stock, bahan, satuan, ukuran, keterangan)) {
+            if (barang.insertBarang(idBarang, namaBarang, kategori, jenis, harga, stock, merk, ukuran, keterangan)) {
                 // informasikan jika insert berhasil
                 JOptionPane.showMessageDialog(rootPane, "Data barang baru berhasil dimasukkan", "Info", JOptionPane.INFORMATION_MESSAGE);
                 // reload barang
                 loadBarang("");
                 // siapkan untuk input baru
                 loadKategori();
+                loadJenis();
                 clearInput();
                 tfId.requestFocus();
             } else {
@@ -481,13 +466,14 @@ public class Restock extends javax.swing.JFrame {
             }
         } else if (rdRestock.isSelected()) {
             // update barang
-            if (barang.updateBarang(idBarang, harga, stock, bahan, satuan, ukuran, keterangan)) {
+            if (barang.updateBarang(idBarang, harga, merk, stock, ukuran, keterangan)) {
                 // informasikan jika insert berhasil
                 JOptionPane.showMessageDialog(rootPane, "Data restock berhasil diperbarui", "Info", JOptionPane.INFORMATION_MESSAGE);
                 // reload barang
                 loadBarang("");
                 clearInput();
                 cbKategori.removeAllItems();
+                cbJenis.removeAllItems();
                 tbRestock.clearSelection();
                 tfSearch.requestFocus();
             } else {
@@ -502,6 +488,7 @@ public class Restock extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             loadKategori();
+            loadJenis();
             clearInput();
             tfId.requestFocus();
         }
@@ -512,6 +499,7 @@ public class Restock extends javax.swing.JFrame {
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             tbRestock.clearSelection();
             cbKategori.removeAllItems();
+            cbJenis.removeAllItems();
             clearInput();
             loadBarang("");
             tfSearch.requestFocus();
@@ -560,6 +548,14 @@ public class Restock extends javax.swing.JFrame {
             cbKategori.addItem(item);
         }
     }
+    
+    private void loadJenis() {
+        cbJenis.removeAllItems();
+        String[] items = barang.getListJenis();
+        for (String item : items) {
+            cbJenis.addItem(item);
+        }
+    }
 
     private void loadBarang(String keyword) {
         DefaultTableModel modelStock = new DefaultTableModel(null, Barang.BARANG_COLUMN_TITLE);
@@ -569,17 +565,15 @@ public class Restock extends javax.swing.JFrame {
         for (String[] data : listBarang) {
             modelStock.addRow(data);
         }
-
+        
         tbRestock.setModel(modelStock);
     }
 
     private void clearInput() {
         tfId.setText("");
         tfNama.setText("");
-        tfJenis.setText("");
         tfHarga.setText("");
-        tfBahan.setText("");
-        tfSatuan.setText("");
+        tfMerk.setText("");
         tfUkuran.setText("");
         textKeterangan.setText("");
         spStock.setValue(0);
@@ -621,13 +615,13 @@ public class Restock extends javax.swing.JFrame {
                         tfNama.setText(detil[1]);
                         cbKategori.removeAllItems();
                         cbKategori.addItem(detil[2]);
-                        tfJenis.setText(detil[3]);
+                        cbJenis.removeAllItems();
+                        cbJenis.addItem(detil[3]);
                         tfHarga.setText(detil[4]);
                         spStock.setValue(Integer.parseInt(detil[5]));
-                        tfBahan.setText(detil[6]);
-                        tfSatuan.setText(detil[7]);
-                        tfUkuran.setText(detil[8]);
-                        textKeterangan.setText(detil[9]);
+                        tfMerk.setText(detil[6]);
+                        tfUkuran.setText(detil[7]);
+                        textKeterangan.setText(detil[8]);
                     }
                 }
             }
@@ -638,6 +632,7 @@ public class Restock extends javax.swing.JFrame {
     private javax.swing.ButtonGroup bgJenisRestock;
     private javax.swing.JButton btAddKategori;
     private javax.swing.JButton btSimpan;
+    private javax.swing.JComboBox<String> cbJenis;
     private javax.swing.JComboBox<String> cbKategori;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -650,7 +645,6 @@ public class Restock extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -672,12 +666,10 @@ public class Restock extends javax.swing.JFrame {
     private javax.swing.JSpinner spStock;
     private javax.swing.JTable tbRestock;
     private javax.swing.JTextArea textKeterangan;
-    private javax.swing.JTextField tfBahan;
     private javax.swing.JTextField tfHarga;
     private javax.swing.JTextField tfId;
-    private javax.swing.JTextField tfJenis;
+    private javax.swing.JTextField tfMerk;
     private javax.swing.JTextField tfNama;
-    private javax.swing.JTextField tfSatuan;
     private javax.swing.JTextField tfSearch;
     private javax.swing.JTextField tfUkuran;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

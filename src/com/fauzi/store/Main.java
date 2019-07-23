@@ -56,13 +56,13 @@ public class Main {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
             Main main = new Main();
-//            main.showLogin();
+          //main.showLogin();
             main.setActiveUser("O01");
-            main.showPenjualan();
+            main.showStock();
         });
     }
 
-    private Connection getConnection() {
+    public Connection getConnection() {
         String server = "localhost";
         String database = "tokoanu";
         String username = "root";

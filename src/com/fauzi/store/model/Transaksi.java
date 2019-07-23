@@ -96,7 +96,7 @@ public class Transaksi {
                 stmtDetilTransaksi.executeUpdate();
                 
                 // update barang stock
-                String sqlUpdateStock = "UPDATE barang SET jumlah = jumlah - ? WHERE idbarang = ?";
+                String sqlUpdateStock = "UPDATE detailbarang SET jumlah = jumlah - ? WHERE idbarang = ?";
                 PreparedStatement stmtUpdateStock = conn.prepareStatement(sqlUpdateStock);
                 
                 stmtUpdateStock.setInt(1, totalBeli);
