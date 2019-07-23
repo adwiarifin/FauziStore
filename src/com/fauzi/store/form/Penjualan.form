@@ -450,7 +450,11 @@
                   </Group>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
+<<<<<<< HEAD
                       <Component id="jButton2" alignment="1" pref="115" max="32767" attributes="0"/>
+=======
+                      <Component id="btHapusTransaksi" alignment="1" max="32767" attributes="0"/>
+>>>>>>> 322d4e26aa9fa8d7316906d498cf4dfb6c33f1f1
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -470,11 +474,38 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+<<<<<<< HEAD
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbKembali" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbDiscount" alignment="3" min="-2" max="-2" attributes="0"/>
+=======
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbGrandTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tfTotalBayar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btHapusTransaksi" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbKembali" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbDiscount" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jButton3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbPembayaran" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+>>>>>>> 322d4e26aa9fa8d7316906d498cf4dfb6c33f1f1
                       </Group>
                       <Component id="jButton3" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -549,8 +580,18 @@
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit Jumlah"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
+<<<<<<< HEAD
+=======
+        <Component class="javax.swing.JButton" name="jButton4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Next Transaction"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+>>>>>>> 322d4e26aa9fa8d7316906d498cf4dfb6c33f1f1
         <Component class="javax.swing.JLabel" name="jLabel16">
           <Properties>
             <Property name="text" type="java.lang.String" value="Discount"/>
@@ -564,12 +605,16 @@
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btHapusTransaksi">
           <Properties>
             <Property name="text" type="java.lang.String" value="Hapus Transaksi"/>
           </Properties>
           <Events>
+<<<<<<< HEAD
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+=======
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btHapusTransaksiActionPerformed"/>
+>>>>>>> 322d4e26aa9fa8d7316906d498cf4dfb6c33f1f1
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btSelesai">
